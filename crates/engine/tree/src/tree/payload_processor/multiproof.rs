@@ -719,6 +719,9 @@ impl MultiProofTask {
             storages: not_fetched_state_update
                 .accounts
                 .keys()
+                .chain(not_fetched_state_update.storages.keys())
+                .collect::<HashSet<_>>()
+                .into_iter()
                 .filter_map(|account| {
                     self.multi_added_removed_keys
                         .storages

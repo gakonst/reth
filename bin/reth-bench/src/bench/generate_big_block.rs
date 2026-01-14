@@ -580,7 +580,10 @@ impl Command {
         );
         let envelope: ExecutionPayloadEnvelopeV5 =
             testing_provider.client().request("testing_packBlock", [request]).await?;
-        info!(payload = index + 1, "testing_packBlock response received, converting to V4 envelope");
+        info!(
+            payload = index + 1,
+            "testing_packBlock response received, converting to V4 envelope"
+        );
 
         let v4_envelope = envelope.try_into_v4()?;
 
@@ -651,7 +654,12 @@ impl Command {
 
         let fcu_result = provider.fork_choice_updated_v3(fcu_state, None).await?;
 
-        info!(endpoint = "engine", method = "engine_forkchoiceUpdatedV3", ?fcu_result, "RPC response");
+        info!(
+            endpoint = "engine",
+            method = "engine_forkchoiceUpdatedV3",
+            ?fcu_result,
+            "RPC response"
+        );
 
         Ok(())
     }
