@@ -716,12 +716,16 @@ impl MultiProofTask {
         // Clone+Arc MultiAddedRemovedKeys for sharing with the dispatched multiproof tasks
         let multi_added_removed_keys = Arc::new(MultiAddedRemovedKeys {
             account: self.multi_added_removed_keys.account.clone(),
-            storages: self
-                .multi_added_removed_keys
-                .storages
-                .iter()
-                .filter(|(k, _)| not_fetched_state_update.accounts.contains_key(*k))
-                .map(|(k, v)| (*k, v.clone()))
+            storages: not_fetched_state_update
+                .accounts
+                .keys()
+                .filter_map(|account| {
+                    self.multi_added_removed_keys
+                        .storages
+                        .get(account)
+                        .cloned()
+                        .map(|keys| (*account, keys))
+                })
                 .collect(),
         });
 
